@@ -127,13 +127,3 @@ manufacturing-core-service/
 ## Configuration
 - Application properties: `manufacturing-core-service/src/main/resources/application.properties`
 - Database schema/data: `manufacturing-core-service/src/main/resources/schema.sql` and `data.sql`
-
-## Customization
-- Update Docker image name/tag as needed in the workflow and Docker commands.
-- Add secrets to GitHub for Docker registry pushes if required.
-
-## License
-[Specify your license here]
-
-## Contact
-For questions or support, contact [your-email@example.com].
