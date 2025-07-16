@@ -1,0 +1,5 @@
+apiVersion: v2
+name: manufacturing-core-service
+description: A Helm chart for deploying the manufacturing-core-service Spring Boot application
+version: 0.1.0
+appVersion: "1.0.0" 
