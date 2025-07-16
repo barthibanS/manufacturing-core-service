@@ -1,6 +1,6 @@
 package org.sfs.dm.manufacturing_core_service.service;
 
-import org.sfs.dm.manufacturing_core_service.dto.GroupPerformanceDTO;
+import org.sfs.dm.manufacturing_core_service.model.GroupPerformanceDTO;
 import org.sfs.dm.manufacturing_core_service.entity.*;
 import org.sfs.dm.manufacturing_core_service.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

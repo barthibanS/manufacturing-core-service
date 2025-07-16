@@ -1,6 +1,6 @@
 package org.sfs.dm.manufacturing_core_service.controller;
 
-import org.sfs.dm.manufacturing_core_service.dto.GroupPerformanceDTO;
+import org.sfs.dm.manufacturing_core_service.model.GroupPerformanceDTO;
 import org.sfs.dm.manufacturing_core_service.service.GroupPerformanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

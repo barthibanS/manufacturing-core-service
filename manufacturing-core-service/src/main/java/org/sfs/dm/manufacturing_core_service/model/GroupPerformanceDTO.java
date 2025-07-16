@@ -1,4 +1,4 @@
-package org.sfs.dm.manufacturing_core_service.dto;
+package org.sfs.dm.manufacturing_core_service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
