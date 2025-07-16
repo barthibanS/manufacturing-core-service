@@ -20,7 +20,7 @@ public class DeviceLoginService {
     @Autowired private PersonGroupRepository personGroupRepo;
 
     public void login(Long personId, Long deviceId) {
-        synchronized (this) {
+        synchronized (DeviceLoginService.class) {
             Device device = deviceRepo.findById(deviceId)
                     .orElseThrow(() -> new EntityNotFoundException("Device not found: " + deviceId));
             Person person = personRepo.findById(personId)
