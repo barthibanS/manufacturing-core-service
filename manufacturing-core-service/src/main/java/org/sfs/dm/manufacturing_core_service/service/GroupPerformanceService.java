@@ -54,6 +54,7 @@ public class GroupPerformanceService {
                     .filter(ls -> ls.getDevice().getDeviceId().equals(deviceId))
                     .mapToLong(ls -> {
                         LocalDateTime login = ls.getLoginTime();
+                        // if logout time is null, use current time user not logged out
                         LocalDateTime logout = ls.getLogoutTime() != null ? ls.getLogoutTime() : now;
                         return Duration.between(login, logout).getSeconds();
                     })
@@ -62,19 +63,19 @@ public class GroupPerformanceService {
 
             // Utilization rate for last 24h
             // For each minute in the last 24h, count group members logged in, average over 24h
-            int minutes = 24 * 60;
-            double utilizationSum = 0;
-            for (int i = 0; i < minutes; i++) {
-                LocalDateTime t = since.plusMinutes(i);
-                long loggedIn = allSessions.stream()
-                        .filter(ls -> ls.getDevice().getDeviceId().equals(deviceId))
-                        .filter(ls -> !ls.getLoginTime().isAfter(t) && (ls.getLogoutTime() == null || ls.getLogoutTime().isAfter(t)))
-                        .map(ls -> ls.getPerson().getId())
-                        .distinct()
-                        .count();
-                utilizationSum += groupSize == 0 ? 0 : ((double) loggedIn / groupSize) * 100.0;
+            long totalLoggedDeviceInSeconds = 0;
+            for (Long personId : personIds) {
+                for (LoginSession ls : allSessions) {
+                    if (ls.getDevice().getDeviceId().equals(deviceId) && ls.getPerson().getId().equals(personId)) {
+                        LocalDateTime login = ls.getLoginTime().isBefore(since) ? since : ls.getLoginTime();
+                        LocalDateTime logout = (ls.getLogoutTime() == null || ls.getLogoutTime().isAfter(now)) ? now : ls.getLogoutTime();
+                        if (logout.isAfter(login)) {
+                            totalLoggedDeviceInSeconds += Duration.between(login, logout).getSeconds();
+                        }
+                    }
+                }
             }
-            double utilizationRate = minutes == 0 ? 0 : utilizationSum / minutes;
+            double utilizationRate = groupSize == 0 ? 0 : ((double) totalLoggedDeviceInSeconds / (groupSize * 24 * 60 * 60)) * 100.0;
             log.debug("Device {}: utilization rate (%%) = {}", deviceId, utilizationRate);
 
             deviceStatsList.add(new GroupPerformanceDTO.DeviceStats(deviceId, totalSeconds, utilizationRate));
